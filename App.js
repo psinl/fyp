@@ -2,8 +2,8 @@ import {
   createStackNavigator,
 } from 'react-navigation';
 
-import Login from './Login';
-import Main from './Main';
+import Login from './pages/Login';
+import Main from './pages/Main';
 
 export default createStackNavigator({
   Main:{
