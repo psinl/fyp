@@ -2,8 +2,9 @@ import {
   createStackNavigator,
 } from 'react-navigation';
 
-import Login from './pages/Login';
-import Main from './pages/Main';
+import Login from './screens/Login';
+import Main from './screens/Main';
+import DrawerScreen from './screens/DrawerScreen'
 
 export default createStackNavigator({
   Main:{
@@ -12,6 +13,10 @@ export default createStackNavigator({
   Login:{
     screen: Login
   },
+  DrawerScreen:{
+    screen:DrawerScreen
+  }
+
 }, {
   initialRouteName: 'Login',
   navigationOptions:{
