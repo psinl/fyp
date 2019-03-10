@@ -37,7 +37,7 @@ export default class Main extends React.Component {
           actions={actions}
           overrideWithAction={true}
           color={'#33cccc'}
-          onPressItem={()=>{}}
+          onPressItem={()=>{this.props.navigation.navigate('Create')}}
         />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
