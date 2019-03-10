@@ -5,6 +5,7 @@ import { DrawerNavigator, StackNavigator } from 'react-navigation';
 //import Login from './screens/Login';
 //import Main from './screens/Main';
 import Screen1 from '../screens/Screen1';
+import Main from '../screens/Main';
 
 
 class NavigationDrawerStructure extends Component {
@@ -18,7 +19,7 @@ class NavigationDrawerStructure extends Component {
         <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
           {/*Donute Button Image */}
           <Image
-            source={require('./images/drawer.png')}
+            source={require('../images/drawer.png')}
             style={{ width: 25, height: 25, marginLeft: 5 }}
           />
         </TouchableOpacity>
@@ -29,9 +30,9 @@ class NavigationDrawerStructure extends Component {
 
 const FirstActivity_StackNavigator = StackNavigator({
   First: {
-    screen: Screen1,
+    screen: Main,
     navigationOptions: ({ navigation }) => ({
-      title: 'Demo Screen 1',
+      title: 'Main',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#FF9800',
@@ -46,7 +47,7 @@ const DrawerNavigatorExample = DrawerNavigator({
     //Title
     screen: FirstActivity_StackNavigator,
     navigationOptions: {
-      drawerLabel: 'Demo Screen 1',
+      drawerLabel: 'Main',
     },
   },
 });

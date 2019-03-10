@@ -4,7 +4,8 @@ import {
 
 import Login from './screens/Login';
 import Main from './screens/Main';
-import DrawerScreen from './screens/DrawerScreen'
+import MyAccount from './screens/MyAccount';
+import Menu from './screens/Menu';
 
 export default createStackNavigator({
   Main:{
@@ -13,8 +14,11 @@ export default createStackNavigator({
   Login:{
     screen: Login
   },
-  DrawerScreen:{
-    screen:DrawerScreen
+  MyAccount:{
+    screen: MyAccount
+  },
+  Menu:{
+    screen: Menu
   }
 
 }, {
