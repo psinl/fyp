@@ -6,6 +6,7 @@ export default class Create extends React.Component {
   static navigationOptions = {
     title:'Upload Item',
   };
+
   constructor(){
     super();
     this.ref = firebase.firestore().collection('items');
@@ -34,7 +35,8 @@ export default class Create extends React.Component {
       description: this.state.description,
       category: this.state.category,
       point: parseInt(this.state.point),
-      service:this.state.service
+      service:this.state.service,
+      user:firebase.auth().currentUser.uid
     }).then((docRef) => {
       this.setState({
         name: '',
@@ -53,7 +55,7 @@ export default class Create extends React.Component {
       });
     });
   }
-
+  state = { currentUser: null }
   render() {
   if(this.state.isLoading){
     return(
@@ -90,7 +92,15 @@ export default class Create extends React.Component {
       <View style={styles.subContainer}>
         <TextInput
             keyboardType='numeric'
-            placeholder={'Enter Points You want to Echange For'}
+            placeholder={'Enter Points You want to Exchange For'}
+            value={this.state.point}
+            onChangeText={(text) => this.updateTextInput(text, 'point')}
+        />
+      </View>
+      <View style={styles.subContainer}>
+        <TextInput
+            keyboardType='numeric'
+            placeholder={'Enter Points You want to Exchange For'}
             value={this.state.point}
             onChangeText={(text) => this.updateTextInput(text, 'point')}
         />

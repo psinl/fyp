@@ -22,7 +22,7 @@ export default class MyAccount extends React.Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={{position: 'absolute', top: 5, right: 5}}>
-          {currentUser && currentUser.email}!
+          {currentUser && currentUser.email }
         </Text>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
