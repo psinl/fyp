@@ -1,14 +1,29 @@
 import React from 'react';
-import { StyleSheet, TextInput, Image, Text, View, Button, TouchableOpacity,ScrollView,ActivityIndicator } from 'react-native';
+import {
+  AppRegistry,
+  StyleSheet,
+  TextInput,
+  Image,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  ScrollView,
+  Platform,
+  ActivityIndicator
+} from 'react-native';
 import firebase from 'react-native-firebase';
 import ImagePicker from 'react-native-image-picker';
-
 
 const options = {
   title:'Select Item Picture',
   takePhoto:'Take Photo',
-  chooseFromLibrary:'Choose From Library'
-}
+  chooseFromLibrary:'Choose From Library',
+  storageOptions:{
+    skipBackup:true,
+    path:'images'
+  }
+};
 
 export default class Create extends React.Component {
   static navigationOptions = {
@@ -25,7 +40,8 @@ export default class Create extends React.Component {
       category: '',
       point:'',
       service:'',
-      avatarSource: null,
+      imageSource: null,
+      imageFileName:'',
       isLoading: false,
     };
   }
@@ -46,7 +62,8 @@ export default class Create extends React.Component {
       category: this.state.category,
       point: parseInt(this.state.point),
       service:this.state.service,
-      user:firebase.auth().currentUser.uid
+      user:firebase.auth().currentUser.uid,
+      image:this.state.imageFileName
     }).then((docRef) => {
       this.setState({
         name: '',
@@ -68,63 +85,32 @@ export default class Create extends React.Component {
 
   choosePhoto= () => {
     ImagePicker.showImagePicker(options, (response) => {
-  console.log('Response = ', response);
+      console.log('Response = ', response);
 
-  if (response.didCancel) {
-    console.log('User cancelled image picker');
-  } else if (response.error) {
-    console.log('ImagePicker Error: ', response.error);
-  } else if (response.customButton) {
-    console.log('User tapped custom button: ', response.customButton);
-  } else {
-    const source = { uri: response.uri };
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        // You can also display the image using data:
+        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+        const fileName = response.fileName + firebase.auth().currentUser.uid;
+        console.log(fileName);
+        const imageRef = firebase.storage().ref('/images/').child(fileName);
+        imageRef.put(response.uri,{contentType:'image/jpeg'});
+        console.log('uploaded');
+        this.setState({
+          imageSource: source,
+          imageFileName: fileName
+        });
 
-    // You can also display the image using data:
-    // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-    this.setState({
-      avatarSource: source,
+      }
     });
   }
-});
-  }
-  getSelectedImages = (selectedImages, currentImage) => {
-
-    const image = currentImage.uri
-
-    const Blob = RNFetchBlob.polyfill.Blob
-    const fs = RNFetchBlob.fs
-    window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-    window.Blob = Blob
-
-
-    let uploadBlob = null
-    const imageRef = firebase.storage().ref('posts').child("test.jpg")
-    let mime = 'image/jpg'
-    fs.readFile(image, 'base64')
-      .then((data) => {
-        return Blob.build(data, { type: `${mime};BASE64` })
-    })
-    .then((blob) => {
-        uploadBlob = blob
-        return imageRef.put(blob, { contentType: mime })
-      })
-      .then(() => {
-        uploadBlob.close()
-        return imageRef.getDownloadURL()
-      })
-      .then((url) => {
-        // URL of the image uploaded on Firebase storage
-        console.log(url);
-
-      })
-      .catch((error) => {
-        console.log(error);
-
-      })
-
-  }
-
   render() {
   if(this.state.isLoading){
     return(
@@ -136,6 +122,7 @@ export default class Create extends React.Component {
   return (
     <ScrollView style={styles.container}>
       <View>
+        <Image source={this.state.imageSource} style={{width:'100%',height: 200, margin: 10}}/>
         <Button title="Select Image" onPress={this.choosePhoto}/>
 
       </View>
@@ -160,14 +147,6 @@ export default class Create extends React.Component {
             placeholder={'category'}
             value={this.state.category}
             onChangeText={(text) => this.updateTextInput(text, 'category')}
-        />
-      </View>
-      <View style={styles.subContainer}>
-        <TextInput
-            keyboardType='numeric'
-            placeholder={'Enter Points You want to Exchange For'}
-            value={this.state.point}
-            onChangeText={(text) => this.updateTextInput(text, 'point')}
         />
       </View>
       <View style={styles.subContainer}>

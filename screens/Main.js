@@ -1,5 +1,13 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, Button, TouchableOpacity,ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Platform,
+  Image,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,ScrollView
+} from 'react-native';
 import firebase from 'react-native-firebase';
 
 import { FloatingAction } from 'react-native-floating-action';
