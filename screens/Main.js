@@ -6,7 +6,10 @@ import {
   Text,
   View,
   Button,
-  TouchableOpacity,ScrollView
+  TouchableOpacity,ScrollView,
+  FlatList,
+  ActivityIndicator,
+  TouchableHighlight
 } from 'react-native';
 import firebase from 'react-native-firebase';
 
@@ -29,18 +32,77 @@ export default class Main extends React.Component {
     .catch(error => this.setState({errorMessage:error.message}))
     console.log('handleLogout')
   }
+  constructor(){
+    super();
+    this.ref = firebase.firestore().collection('items');
+    this.unsubscribe = null;
+    this.state = {
+      isLoading: true,
+      items:[]
+    };
+  }
+
+  onCollectionUpdate = (querySnapshot) => {
+    const items = [];
+    querySnapshot.forEach((doc) => {
+      const{name,category, description,imageFileName,point,service,user,url} = doc.data();
+      items.push({
+        key:doc.id,
+        doc,
+        name,
+        category,
+        description,
+        imageFileName,
+        url,
+        point,
+        service,
+      });
+    });
+    this.setState({
+      items,
+      isLoading:false,
+    })
+  }
+
   componentDidMount() {
     const {currentUser} = firebase.auth()
     this.setState({currentUser})
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+
   }
   state = { currentUser: null }
   render() {
     const { currentUser } = this.state
+    if(this.state.isLoading){
+      return(
+        <View style={styles.activity}>
+          <ActivityIndicator size="large" color="#0000ff"/>
+        </View>
+      )
+    }
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={{position: 'absolute', top: 5, right: 5}}>
           {currentUser && currentUser.email}!
         </Text>
+        <FlatList
+          data={ this.state.items }
+          showsVerticalScrollIndicator={ false }
+          renderItem={({item}) =>
+            <TouchableHighlight
+              underlayColor={'#cccccc'}
+              onPress={ () => {
+             }}
+            >
+              <View style={styles.item}>
+                <Image source={item.url}/>
+                <Text style={styles.itemTitle}>{ item.name }</Text>
+                <Text style={styles.itemSubtitle}>{ item.description }</Text>
+              </View>
+            </TouchableHighlight>
+          }
+          keyExtractor={(item) => {item.key.toString()}}
+        />
         <FloatingAction
           actions={actions}
           overrideWithAction={true}
@@ -95,5 +157,32 @@ const styles = StyleSheet.create({
   button:{
     justifyContent:'flex-end',
     flex:1
+  },
+  activity: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  item: {
+  justifyContent: 'center',
+  paddingTop: 10,
+  paddingBottom: 10,
+  paddingLeft: 25,
+  paddingRight: 25,
+  borderBottomWidth: 1,
+  borderColor: '#ccc',
+  },
+  itemTitle: {
+    fontSize: 22,
+    fontWeight: '500',
+    color: '#000',
+
+  },
+  itemSubtitle: {
+    fontSize: 18,
   }
 })

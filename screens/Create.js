@@ -17,12 +17,6 @@ import ImagePicker from 'react-native-image-picker';
 
 const options = {
   title:'Select Item Picture',
-  takePhoto:'Take Photo',
-  chooseFromLibrary:'Choose From Library',
-  storageOptions:{
-    skipBackup:true,
-    path:'images'
-  }
 };
 
 export default class Create extends React.Component {
@@ -42,6 +36,7 @@ export default class Create extends React.Component {
       service:'',
       imageSource: null,
       imageFileName:'',
+      imageUrl:'',
       isLoading: false,
     };
   }
@@ -63,7 +58,8 @@ export default class Create extends React.Component {
       point: parseInt(this.state.point),
       service:this.state.service,
       user:firebase.auth().currentUser.uid,
-      image:this.state.imageFileName
+      image:this.state.imageFileName,
+      url:this.state.imageUrl,
     }).then((docRef) => {
       this.setState({
         name: '',
@@ -83,6 +79,12 @@ export default class Create extends React.Component {
     });
   }
 
+  setPath= (url) => {
+    this.setState({
+      imageUrl:url
+    })
+  }
+
   choosePhoto= () => {
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
@@ -98,19 +100,26 @@ export default class Create extends React.Component {
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
         const fileName = response.fileName + firebase.auth().currentUser.uid;
-        console.log(fileName);
         const imageRef = firebase.storage().ref('/images/').child(fileName);
-        imageRef.put(response.uri,{contentType:'image/jpeg'});
-        console.log('uploaded');
+        imageRef.put(response.uri,{contentType:'image/jpeg'})
+        .then(()=>{
+          return imageRef.getDownloadURL()
+        })
+        .then((url)=>{
+          this.setPath(url)
+        });
+
         this.setState({
           imageSource: source,
-          imageFileName: fileName
+          imageFileName: fileName,
         });
 
 
       }
     });
   }
+
+
   render() {
   if(this.state.isLoading){
     return(
@@ -166,7 +175,7 @@ export default class Create extends React.Component {
             onChangeText={(text) => this.updateTextInput(text, 'service')}
         />
       </View>
-      <View style={styles.button}>
+      <View style={styles.subContainer}>
         <Button
           large
           leftIcon={{name: 'save'}}
