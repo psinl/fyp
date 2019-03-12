@@ -7,7 +7,7 @@ import Main from './screens/Main';
 import MyAccount from './screens/MyAccount';
 import Menu from './screens/Menu';
 import Create from './screens/Create';
-
+import Gallery from './screens/Gallery';
 export default createStackNavigator({
   Main:{
     screen: Main
@@ -24,6 +24,9 @@ export default createStackNavigator({
   Create:{
     screen: Create
   },
+  Gallery:{
+    screen:Gallery
+  }
 
 }, {
   initialRouteName: 'Login',
