@@ -95,7 +95,8 @@ export default class Main extends React.Component {
              }}
             >
               <View style={styles.item}>
-                <Image source={item.url}/>
+                <Image source={{uri:`${item.url}`}}
+                  style={{width:'100%',height:200,margin:10}}/>
                 <Text style={styles.itemTitle}>{ item.name }</Text>
                 <Text style={styles.itemSubtitle}>{ item.description }</Text>
               </View>
