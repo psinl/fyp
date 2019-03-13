@@ -83,7 +83,7 @@ export default class Main extends React.Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={{position: 'absolute', top: 5, right: 5}}>
-          {currentUser && currentUser.email}!
+          {currentUser && currentUser.email}
         </Text>
         <FlatList
           data={ this.state.items }
@@ -91,14 +91,21 @@ export default class Main extends React.Component {
           renderItem={({item}) =>
             <TouchableHighlight
               underlayColor={'#cccccc'}
+              style={{width:400}}
               onPress={ () => {
+                this.props.navigation.navigate('ShowDetails', {
+                  itemkey: `${JSON.stringify(item.key)}`,
+                });
              }}
             >
               <View style={styles.item}>
                 <Image source={{uri:`${item.url}`}}
-                  style={{width:'100%',height:200,margin:10}}/>
-                <Text style={styles.itemTitle}>{ item.name }</Text>
-                <Text style={styles.itemSubtitle}>{ item.description }</Text>
+                  style={styles.image}/>
+                <View style={styles.itemDetails}>
+                <Text numberOfLines={1} style={styles.itemTitle}>{ item.name }</Text>
+                <Text style={styles.itemSubtitle}>{ item.category }</Text>
+                <Text>{item.point} points</Text>
+                </View>
               </View>
             </TouchableHighlight>
           }
@@ -168,14 +175,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  image:{
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    marginRight:20,
+  },
   item: {
-  justifyContent: 'center',
-  paddingTop: 10,
-  paddingBottom: 10,
-  paddingLeft: 25,
-  paddingRight: 25,
-  borderBottomWidth: 1,
-  borderColor: '#ccc',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flex: 1,
+    borderRadius: 2,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    marginTop:20,
+  },
+  itemDetails:{
+    flex: 2,
+    width: '100%',
+    height: '100%',
+    marginTop:20,
+    marginBottom:20,
   },
   itemTitle: {
     fontSize: 22,
