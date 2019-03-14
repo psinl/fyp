@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
-  ActivityIndicator
+  ActivityIndicator,
+  Picker,
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import ImagePicker from 'react-native-image-picker';
@@ -40,6 +41,23 @@ export default class Create extends React.Component {
       imageUrl:'',
       isLoading: false,
     };
+    this.categoryData = [
+      "Select Category",
+      "Electronic Devices",
+      "Electronic Accessories",
+      "Home Appliances",
+      "Health and Beauty",
+      "Toys",
+      "Groceries",
+      "Woman Fashion",
+      "Man Fashion",
+      "Fashion Accessories",
+      "Sports & Travel",
+      "Digital Goods",
+      "Service",
+      "Other"
+
+    ]
   }
 
   updateTextInput = (text, field) => {
@@ -81,6 +99,12 @@ export default class Create extends React.Component {
         isLoading: false,
       });
     });
+  }
+
+  categoryList = () => {
+    return (this.categoryData.map( (x, i) => {
+      return( <Picker.Item label={x} key={i} value={x} />)
+    }));
   }
 
   setPath= (url) => {
@@ -156,16 +180,16 @@ export default class Create extends React.Component {
         />
       </View>
       <View style={styles.subContainer}>
-        <TextInput
-            placeholder={'category'}
-            value={this.state.category}
-            onChangeText={(text) => this.updateTextInput(text, 'category')}
-        />
+          <Picker
+            selectedValue={this.state.category}
+            onValueChange={ (value) => ( this.setState({category : value}) )}>
+            { this.categoryList() }
+          </Picker>
       </View>
       <View style={styles.subContainer}>
         <TextInput
             keyboardType='numeric'
-            placeholder={'Enter Item You want to Exchange With'}
+            placeholder={'Enter Point You want to Sell With'}
             value={this.state.point}
             onChangeText={(text) => this.updateTextInput(text, 'point')}
         />
