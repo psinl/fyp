@@ -34,6 +34,7 @@ export default class Create extends React.Component {
       category: '',
       point:'',
       service:'',
+      itemWish:'',
       imageSource: null,
       imageFileName:'',
       imageUrl:'',
@@ -57,6 +58,7 @@ export default class Create extends React.Component {
       category: this.state.category,
       point: parseInt(this.state.point),
       service:this.state.service,
+      itemWish:this.state.itemWish,
       user:firebase.auth().currentUser.uid,
       image:this.state.imageFileName,
       url:this.state.imageUrl,
@@ -68,6 +70,7 @@ export default class Create extends React.Component {
         category: '',
         point: '',
         service:'',
+        itemWish:'',
         isLoading: false,
       });
       this.props.navigation.goBack();
@@ -162,9 +165,18 @@ export default class Create extends React.Component {
       <View style={styles.subContainer}>
         <TextInput
             keyboardType='numeric'
-            placeholder={'Enter Points You want to Exchange For'}
+            placeholder={'Enter Item You want to Exchange With'}
             value={this.state.point}
             onChangeText={(text) => this.updateTextInput(text, 'point')}
+        />
+      </View>
+      <View style={styles.subContainer}>
+        <TextInput
+            multiline={true}
+            numberOfLines={4}
+            placeholder={'Enter Item you want to Exchange with'}
+            value={this.state.itemWish}
+            onChangeText={(text) => this.updateTextInput(text, 'itemWish')}
         />
       </View>
       <View style={styles.subContainer}>
