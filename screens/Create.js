@@ -12,6 +12,7 @@ import {
   Platform,
   ActivityIndicator,
   Picker,
+  Alert
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import ImagePicker from 'react-native-image-picker';
@@ -40,6 +41,7 @@ export default class Create extends React.Component {
       imageFileName:'',
       imageUrl:'',
       isLoading: false,
+      loadingImage:false,
     };
     this.categoryData = [
       "Select Category",
@@ -67,38 +69,51 @@ export default class Create extends React.Component {
   }
 
   saveItem() {
-    this.setState({
-      isLoading: true,
-    });
-    this.ref.add({
-      name: this.state.name,
-      description: this.state.description,
-      category: this.state.category,
-      point: parseInt(this.state.point),
-      service:this.state.service,
-      itemWish:this.state.itemWish,
-      user:firebase.auth().currentUser.uid,
-      image:this.state.imageFileName,
-      url:this.state.imageUrl,
-      timestamp:firebase.firestore.FieldValue.serverTimestamp()
-    }).then((docRef) => {
+    if(this.state.name == ''){
+      Alert.alert('Please fill in the item name')
+    }else if(this.state.category == ''){
+      Alert.alert('Please choose the item category')
+    }else if(this.state.imageUrl == ''){
+      Alert.alert('Please choose the item photo')
+    } else if(this.state.point == '' && this.state.service == '' &&
+    this.state.itemWish == ''){
+      Alert.alert('Please fill in either one of the field of exchange');
+    }else{
       this.setState({
-        name: '',
-        description: '',
-        category: '',
-        point: '',
-        service:'',
-        itemWish:'',
-        isLoading: false,
+        isLoading: true,
       });
-      this.props.navigation.goBack();
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-      this.setState({
-        isLoading: false,
+      this.ref.add({
+        name: this.state.name,
+        description: this.state.description,
+        category: this.state.category,
+        point: parseInt(this.state.point),
+        service:this.state.service,
+        itemWish:this.state.itemWish,
+        user:firebase.auth().currentUser.uid,
+        image:this.state.imageFileName,
+        url:this.state.imageUrl,
+        timestamp:firebase.firestore.FieldValue.serverTimestamp()
+      }).then((docRef) => {
+        this.setState({
+          name: '',
+          description: '',
+          category: '',
+          point: '',
+          service:'',
+          itemWish:'',
+          isLoading: false,
+        });
+        this.props.navigation.goBack();
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+        this.setState({
+          isLoading: false,
+        });
       });
-    });
+
+      Alert.alert('Item successfully Uploaded');
+    }
   }
 
   categoryList = () => {
@@ -114,6 +129,9 @@ export default class Create extends React.Component {
   }
 
   choosePhoto= () => {
+    this.setState({
+      loadingImage:true
+    })
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
 
@@ -159,7 +177,7 @@ export default class Create extends React.Component {
   return (
     <ScrollView style={styles.container}>
       <View>
-        <Image source={this.state.imageSource} style={{width:'100%',height: 200}}/>
+        <Image source={this.state.loadingImage ? this.state.imageSource : require('../images/image.png')} style={{width:'100%',height: 450}}/>
         <Button title="Select Image" onPress={this.choosePhoto}/>
 
       </View>

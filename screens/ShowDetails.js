@@ -74,8 +74,10 @@ export default class Main extends React.Component {
     else if(firebase.auth().currentUser.uid == this.state.item.user){
       return (
         <ScrollView style={styles.container}>
+        <View>
           <Image source={{uri:this.state.item.url}}
-            style={{width:'100%',height: 250}}/>
+            style={styles.image}/>
+        </View>
           <InputWithLabel style={styles.output}
             label={'Item Name'}
             value={this.state.item.name}
@@ -116,7 +118,7 @@ export default class Main extends React.Component {
             editable={false}
             multiline={true}
           />
-          <InputWithLabel style={styles.output}
+          <InputWithLabel style={styles.time}
             label={'Uploaded at'}
             value={this.state.item.timestamp.toString()}
             orientation={'vertical'}
@@ -147,8 +149,10 @@ export default class Main extends React.Component {
     else{
       return (
         <ScrollView style={styles.container}>
+          <View >
           <Image source={{uri:this.state.item.url}}
-            style={{width:'100%',height: 250}}/>
+            style={styles.image}/>
+          </View>
           <InputWithLabel style={styles.output}
             label={'Item Name'}
             value={this.state.item.name}
@@ -189,7 +193,7 @@ export default class Main extends React.Component {
             editable={false}
             multiline={true}
           />
-          <InputWithLabel style={styles.output}
+          <InputWithLabel style={styles.time}
             label={'Uploaded at'}
             value={this.state.item.timestamp.toString()}
             orientation={'vertical'}
@@ -238,4 +242,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  image:{
+    flex:1,
+    width:'100%',
+    height:450,
+  },
+  time:{
+    fontSize: 16,
+    color: '#000099',
+    marginTop: 10,
+    marginBottom: 10,
+  }
 })

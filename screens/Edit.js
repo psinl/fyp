@@ -8,6 +8,7 @@ import {
   Image,
   Button,
   Picker,
+  Alert
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import {InputWithLabel} from '../components/UI';
@@ -20,7 +21,7 @@ const options = {
 
 export default class Edit extends React.Component{
   static navigationOptions = {
-    title: 'Edit Board',
+    title: 'Edit Item',
   };
   constructor() {
     super();
@@ -88,42 +89,53 @@ export default class Edit extends React.Component{
   }
 
   updateItem() {
-    this.setState({
-      isLoading: true,
-    });
-    const { navigation } = this.props;
-    const updateRef = firebase.firestore().collection('items').doc(this.state.key);
-    updateRef.set({
-      name: this.state.name,
-      description: this.state.description,
-      category: this.state.category,
-      point: parseInt(this.state.point),
-      service:this.state.service,
-      itemWish:this.state.itemWish,
-      user:this.state.user,
-      image:this.state.image,
-      url:this.state.url,
-      timestamp:this.state.timestamp
-    }).then((docRef) => {
+    if(this.state.name == ''){
+      Alert.alert('Please fill in the item name')
+    }else if(this.state.category == ''){
+      Alert.alert('Please choose the item category')
+    }else if(this.state.url == ''){
+      Alert.alert('Please choose the item photo')
+    } else if(this.state.point == '' && this.state.service == '' &&
+    this.state.itemWish == ''){
+      Alert.alert('Please fill in either one of the field of exchange');
+    }else{
       this.setState({
-        key: '',
-        title: '',
-        description: '',
-        category: '',
-        point:'',
-        service:'',
-        itemWish:'',
-        timestamp:'',
-        isLoading: false,
+        isLoading: true,
       });
-      this.props.navigation.navigate('Main');
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-      this.setState({
-        isLoading: false,
+      const { navigation } = this.props;
+      const updateRef = firebase.firestore().collection('items').doc(this.state.key);
+      updateRef.set({
+        name: this.state.name,
+        description: this.state.description,
+        category: this.state.category,
+        point: parseInt(this.state.point),
+        service:this.state.service,
+        itemWish:this.state.itemWish,
+        user:this.state.user,
+        image:this.state.image,
+        url:this.state.url,
+        timestamp:this.state.timestamp
+      }).then((docRef) => {
+        this.setState({
+          key: '',
+          title: '',
+          description: '',
+          category: '',
+          point:'',
+          service:'',
+          itemWish:'',
+          timestamp:'',
+          isLoading: false,
+        });
+        this.props.navigation.navigate('Main');
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+        this.setState({
+          isLoading: false,
+        });
       });
-    });
+    }
   }
 
   categoryList = () => {
@@ -183,7 +195,7 @@ export default class Edit extends React.Component{
     return (
       <ScrollView style={styles.container}>
         <Image source={{uri:this.state.url}}
-          style={{width:'100%',height: 250}}/>
+          style={{width:'100%',height: 450}}/>
         <Button title="Select Image" onPress={this.choosePhoto}/>
         <InputWithLabel style={styles.input}
           label={'Title'}
@@ -196,12 +208,15 @@ export default class Edit extends React.Component{
           value={this.state.description}
           onChangeText={(description) => {this.setState({description})}}
           orientation={'vertical'}
+          multiline={true}
         />
-        <Picker
-          selectedValue={this.state.category}
-          onValueChange={ (value) => ( this.setState({category : value}) )}>
-          { this.categoryList() }
-        </Picker>
+        <View style={styles.subContainer}>
+            <Picker
+              selectedValue={this.state.category}
+              onValueChange={ (value) => ( this.setState({category : value}) )}>
+              { this.categoryList() }
+            </Picker>
+        </View>
         <InputWithLabel style={styles.input}
           label={'Wish to sell with point: '}
           value={this.state.point.toString()}
@@ -251,6 +266,12 @@ const styles = StyleSheet.create({
     padding: 5,
     borderBottomWidth: 2,
     borderBottomColor: '#CCCCCC',
+  },
+  input: {
+    fontSize: 16,
+    color: '#000099',
+    marginTop: 10,
+    marginBottom: 10,
   },
   activity: {
     position: 'absolute',
