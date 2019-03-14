@@ -104,7 +104,7 @@ export default class Main extends React.Component {
                 <View style={styles.itemDetails}>
                 <Text numberOfLines={1} style={styles.itemTitle}>{ item.name }</Text>
                 <Text style={styles.itemSubtitle}>{ item.category }</Text>
-                <Text>{item.point} points</Text>
+                <Text numberOfLines={1}>{item.description}</Text>
                 </View>
               </View>
             </TouchableHighlight>
@@ -164,7 +164,9 @@ const styles = StyleSheet.create({
   },
   button:{
     justifyContent:'flex-end',
-    flex:1
+    flex:1,
+    backgroundColor:'#33cccc',
+    height:30
   },
   activity: {
     position: 'absolute',

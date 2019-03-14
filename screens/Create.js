@@ -187,6 +187,9 @@ export default class Create extends React.Component {
           </Picker>
       </View>
       <View style={styles.subContainer}>
+        <Text>Please enter either one field </Text>
+      </View>
+      <View style={styles.subContainer}>
         <TextInput
             keyboardType='numeric'
             placeholder={'Enter Point You want to Sell With'}

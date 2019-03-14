@@ -6,10 +6,12 @@ import {
   View,
   Image,
   Text,
-  Button
+  Button,
+  Alert
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import {InputWithLabel} from '../components/UI';
+
 
 export default class Main extends React.Component {
   static navigationOptions = {
@@ -40,6 +42,27 @@ export default class Main extends React.Component {
       }
     });
   }
+
+  deleteItem(key) {
+    const { navigation } = this.props;
+    this.setState({
+      isLoading: true
+    });
+    firebase.firestore().collection('items').doc(key).delete().then(() => {
+      console.log("Document successfully deleted!");
+      this.setState({
+        isLoading: false
+      });
+      navigation.navigate('Main');
+      Alert.alert('Item deleted successfully');
+    }).catch((error) => {
+      console.error("Error removing document: ", error);
+      this.setState({
+        isLoading: false
+      });
+    });
+  }
+
   render() {
     if(this.state.isLoading){
       return(
@@ -48,67 +71,147 @@ export default class Main extends React.Component {
         </View>
       )
     }
-    return (
-      <ScrollView style={styles.container}>
-        <Image source={{uri:this.state.item.url}}
-          style={{width:'100%',height: 250}}/>
-        <InputWithLabel style={styles.output}
-          label={'Item Name'}
-          value={this.state.item.name}
-          orientation={'vertical'}
-          editable={false}
-          multiline={true}
-        />
-        <InputWithLabel style={styles.output}
-          label={'Description'}
-          value={this.state.item.description}
-          orientation={'vertical'}
-          editable={false}
-          multiline={true}
-        />
-        <InputWithLabel style={styles.output}
-          label={'Category'}
-          value={this.state.item.category}
-          orientation={'vertical'}
-          editable={false}
-        />
-        <InputWithLabel style={styles.output}
-          label={'Point to buy'}
-          value={this.state.item.point.toString()}
-          orientation={'vertical'}
-          editable={false}
-        />
-        <InputWithLabel style={styles.output}
-          label={'Service to exchange'}
-          value={this.state.item.service}
-          orientation={'vertical'}
-          editable={false}
-          multiline={true}
-        />
-        <InputWithLabel style={styles.output}
-          label={'Item Wish to Exchange with'}
-          value={this.state.item.itemWish}
-          orientation={'vertical'}
-          editable={false}
-          multiline={true}
-        />
-        <InputWithLabel style={styles.output}
-          label={'Uploaded at'}
-          value={this.state.item.timestamp.toString()}
-          orientation={'vertical'}
-          editable={false}
-          multiline={true}
-        />
+    else if(firebase.auth().currentUser.uid == this.state.item.user){
+      return (
+        <ScrollView style={styles.container}>
+          <Image source={{uri:this.state.item.url}}
+            style={{width:'100%',height: 250}}/>
+          <InputWithLabel style={styles.output}
+            label={'Item Name'}
+            value={this.state.item.name}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Description'}
+            value={this.state.item.description}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Category'}
+            value={this.state.item.category}
+            orientation={'vertical'}
+            editable={false}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Point to buy'}
+            value={this.state.item.point.toString()}
+            orientation={'vertical'}
+            editable={false}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Service to exchange'}
+            value={this.state.item.service}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Item Wish to Exchange with'}
+            value={this.state.item.itemWish}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Uploaded at'}
+            value={this.state.item.timestamp.toString()}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
 
-        <View style={styles.subContainer}>
-          <Button
-            large
-            title='Make Offer'
-            onPress={() => {}} />
-        </View>
+          <View style={styles.subContainer}>
+            <Button
+              large
+              title='Make Offer'
+              onPress={() => {}} />
+          </View>
 
-      </ScrollView>
-    );
+          <View style={styles.subContainer}>
+            <Button
+              large
+              title='Edit'
+              onPress={() => {}} />
+          </View>
+
+          <View style={styles.subContainer}>
+            <Button
+              large
+              title='Delete'
+              onPress={() => this.deleteItem(this.state.key)} />
+          </View>
+
+        </ScrollView>
+      );
+    }
+    else{
+      return (
+        <ScrollView style={styles.container}>
+          <Image source={{uri:this.state.item.url}}
+            style={{width:'100%',height: 250}}/>
+          <InputWithLabel style={styles.output}
+            label={'Item Name'}
+            value={this.state.item.name}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Description'}
+            value={this.state.item.description}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Category'}
+            value={this.state.item.category}
+            orientation={'vertical'}
+            editable={false}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Point to buy'}
+            value={this.state.item.point.toString()}
+            orientation={'vertical'}
+            editable={false}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Service to exchange'}
+            value={this.state.item.service}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Item Wish to Exchange with'}
+            value={this.state.item.itemWish}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Uploaded at'}
+            value={this.state.item.timestamp.toString()}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+
+          <View style={styles.subContainer}>
+            <Button
+              large
+              title='Make Offer'
+              onPress={() => {}} />
+          </View>
+
+        </ScrollView>
+
+      );
+    }
   }
 }
 
@@ -128,9 +231,9 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flex: 1,
-    marginBottom: 30,
+    marginBottom: 20,
     padding: 5,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderBottomColor: '#CCCCCC',
   },
   output: {
