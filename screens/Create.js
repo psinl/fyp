@@ -60,6 +60,7 @@ export default class Create extends React.Component {
       user:firebase.auth().currentUser.uid,
       image:this.state.imageFileName,
       url:this.state.imageUrl,
+      timestamp:firebase.firestore.FieldValue.serverTimestamp()
     }).then((docRef) => {
       this.setState({
         name: '',
