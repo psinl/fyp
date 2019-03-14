@@ -103,7 +103,7 @@ export default class Main extends React.Component {
             editable={false}
           />
           <InputWithLabel style={styles.output}
-            label={'Service to exchange'}
+            label={'Service Wish to Exchange With'}
             value={this.state.item.service}
             orientation={'vertical'}
             editable={false}
@@ -127,15 +127,11 @@ export default class Main extends React.Component {
           <View style={styles.subContainer}>
             <Button
               large
-              title='Make Offer'
-              onPress={() => {}} />
-          </View>
-
-          <View style={styles.subContainer}>
-            <Button
-              large
               title='Edit'
-              onPress={() => {}} />
+              onPress={() => {this.props.navigation.navigate('Edit', {
+                itemkey: `${JSON.stringify(this.state.key)}`,
+              });
+            }} />
           </View>
 
           <View style={styles.subContainer}>

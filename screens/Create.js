@@ -159,7 +159,7 @@ export default class Create extends React.Component {
   return (
     <ScrollView style={styles.container}>
       <View>
-        <Image source={this.state.imageSource} style={{width:'100%',height: 200, margin: 10}}/>
+        <Image source={this.state.imageSource} style={{width:'100%',height: 200}}/>
         <Button title="Select Image" onPress={this.choosePhoto}/>
 
       </View>

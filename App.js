@@ -8,6 +8,7 @@ import MyAccount from './screens/MyAccount';
 import Menu from './screens/Menu';
 import Create from './screens/Create';
 import ShowDetails from './screens/ShowDetails';
+import Edit from './screens/Edit';
 export default createStackNavigator({
   Main:{
     screen: Main
@@ -25,7 +26,10 @@ export default createStackNavigator({
     screen: Create
   },
   ShowDetails:{
-    screen:ShowDetails
+    screen: ShowDetails
+  },
+  Edit:{
+    screen: Edit 
   }
 
 }, {

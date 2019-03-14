@@ -9,7 +9,7 @@ import {
   TouchableOpacity,ScrollView,
   FlatList,
   ActivityIndicator,
-  TouchableHighlight
+  TouchableHighlight,
 } from 'react-native';
 import firebase from 'react-native-firebase';
 
