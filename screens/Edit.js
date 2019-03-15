@@ -135,6 +135,8 @@ export default class Edit extends React.Component{
           isLoading: false,
         });
       });
+
+      Alert.alert('Item successfully updated');
     }
   }
 

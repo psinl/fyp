@@ -9,6 +9,8 @@ import Menu from './screens/Menu';
 import Create from './screens/Create';
 import ShowDetails from './screens/ShowDetails';
 import Edit from './screens/Edit';
+import MyStuff from './screens/MyStuff';
+
 export default createStackNavigator({
   Main:{
     screen: Main
@@ -29,7 +31,10 @@ export default createStackNavigator({
     screen: ShowDetails
   },
   Edit:{
-    screen: Edit 
+    screen: Edit
+  },
+  MyStuff:{
+    screen: MyStuff
   }
 
 }, {

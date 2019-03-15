@@ -24,6 +24,21 @@ export default class MyAccount extends React.Component {
         <Text style={{position: 'absolute', top: 5, right: 5}}>
           {currentUser && currentUser.email }
         </Text>
+        <View>
+          <Text>Testing View</Text>
+        </View>
+        <View style={styles.subContainer}>
+          <Button
+            large
+            title='My Stuff'
+            onPress={()=>this.props.navigation.navigate('MyStuff')}
+          />
+          <Button
+            large
+            title='Logout'
+            onPress={()=>this.handleLogout()}
+          />
+        </View>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
             <TouchableOpacity onPress={()=>this.props.navigation.navigate('Menu')}>
@@ -71,6 +86,16 @@ const styles = StyleSheet.create({
   },
   button:{
     justifyContent:'flex-end',
-    flex:1
-  }
+    flex:1,
+    backgroundColor:'#33cccc',
+    height:30
+  },
+  subContainer: {
+    flex: 1,
+    padding: 5,
+    marginTop:10,
+    width:'100%',
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCCCCC',
+  },
 })
