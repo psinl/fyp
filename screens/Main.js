@@ -12,6 +12,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import firebase from 'react-native-firebase';
+import { SearchBar } from 'react-native-elements';
 
 import { FloatingAction } from 'react-native-floating-action';
 
@@ -41,6 +42,14 @@ export default class Main extends React.Component {
       items:[]
     };
   }
+
+  state = {
+    search:'',
+  };
+
+  updateSearch = search => {
+    this.setState({ search });
+  };
 
   onCollectionUpdate = (querySnapshot) => {
     const items = [];
@@ -72,6 +81,7 @@ export default class Main extends React.Component {
   }
   state = { currentUser: null }
   render() {
+    const { search } = this.state;
     const { currentUser } = this.state
     if(this.state.isLoading){
       return(
@@ -85,6 +95,12 @@ export default class Main extends React.Component {
         <Text style={{position: 'absolute', top: 5, right: 5}}>
           {currentUser && currentUser.email}
         </Text>
+        <SearchBar
+          placeholder="Type Here..."
+          onChangeText={this.updateSearch}
+          value={search}
+          platform='android'
+        />
         <FlatList
           data={ this.state.items }
           showsVerticalScrollIndicator={ false }

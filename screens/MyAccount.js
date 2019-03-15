@@ -3,6 +3,10 @@ import { StyleSheet, Platform, Image, Text, View, Button, TouchableOpacity,Scrol
 import firebase from 'react-native-firebase';
 
 export default class MyAccount extends React.Component {
+  static navigationOptions = {
+    title:'My Account',
+
+  };
   handleLogout = () => {
     const { email, password } = this.state
     firebase
@@ -25,7 +29,6 @@ export default class MyAccount extends React.Component {
           {currentUser && currentUser.email }
         </Text>
         <View>
-          <Text>Testing View</Text>
         </View>
         <View style={styles.subContainer}>
           <Button
@@ -97,5 +100,6 @@ const styles = StyleSheet.create({
     width:'100%',
     borderBottomWidth: 1,
     borderBottomColor: '#CCCCCC',
+
   },
 })

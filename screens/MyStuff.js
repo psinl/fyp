@@ -14,6 +14,10 @@ import {
 import firebase from 'react-native-firebase';
 
 export default class MyStuff extends React.Component {
+  static navigationOptions = {
+    title:'My Stuff',
+
+  };
   handleLogout = () => {
     const { email, password } = this.state
     firebase
