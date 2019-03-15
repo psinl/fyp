@@ -119,6 +119,13 @@ export default class Main extends React.Component {
             multiline={true}
           />
           <InputWithLabel style={styles.time}
+            label={'Uploaded by'}
+            value={this.state.item.user}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.time}
             label={'Uploaded at'}
             value={this.state.item.timestamp.toString()}
             orientation={'vertical'}

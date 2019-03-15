@@ -241,6 +241,12 @@ export default class Edit extends React.Component{
           multiline={true}
         />
         <InputWithLabel style={styles.input}
+          label={'Uploaded by'}
+          value={this.state.user}
+          orientation={'vertical'}
+          editable={false}
+        />
+        <InputWithLabel style={styles.input}
           label={'Uploaded at'}
           value={this.state.timestamp.toString()}
           orientation={'vertical'}
