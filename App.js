@@ -10,6 +10,8 @@ import Create from './screens/Create';
 import ShowDetails from './screens/ShowDetails';
 import Edit from './screens/Edit';
 import MyStuff from './screens/MyStuff';
+import Search from './screens/Search';
+import Category from './screens/Category';
 
 export default createStackNavigator({
   Main:{
@@ -35,6 +37,10 @@ export default createStackNavigator({
   },
   MyStuff:{
     screen: MyStuff
+  },
+
+  Category:{
+    screen:Category
   }
 
 }, {

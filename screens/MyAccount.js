@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   subContainer: {
     flex: 1,
     padding: 5,
-    marginTop:10,
+    marginTop:20,
     width:'100%',
     borderBottomWidth: 1,
     borderBottomColor: '#CCCCCC',

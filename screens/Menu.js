@@ -68,8 +68,16 @@ export default class Menu extends React.Component {
             {key: 'Other'},
           ]}
           renderItem={({item}) =>
-            <TouchableHighlight>
-              <Text style={styles.category}>{item.key}</Text>
+            <TouchableHighlight
+              onPress={ () => {
+                this.props.navigation.navigate('Category', {
+                  category : `${JSON.stringify(item.key)}` ,
+                });
+             }}
+            >
+              <View style={styles.categoryContainer}>
+                <Text style={styles.category}>{item.key}</Text>
+              </View>
             </TouchableHighlight>
           }
         />
@@ -139,9 +147,14 @@ const styles = StyleSheet.create({
     marginTop:20
   },
   category:{
-    fontSize:20
+    fontSize:20,
+    color:'black'
   },
   search:{
     width:'100%'
+  },
+  categoryContainer:{
+    marginTop:5,
+
   }
 })
