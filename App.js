@@ -38,7 +38,9 @@ export default createStackNavigator({
   MyStuff:{
     screen: MyStuff
   },
-
+  Search:{
+    screen:Search
+  },
   Category:{
     screen:Category
   }

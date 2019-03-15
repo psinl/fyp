@@ -89,7 +89,7 @@ export default class Create extends React.Component {
         point: parseInt(this.state.point),
         service:this.state.service,
         itemWish:this.state.itemWish,
-        user:firebase.auth().currentUser.uid,
+        user:firebase.auth().currentUser.email,
         image:this.state.imageFileName,
         url:this.state.imageUrl,
         timestamp:firebase.firestore.FieldValue.serverTimestamp()
@@ -205,7 +205,7 @@ export default class Create extends React.Component {
           </Picker>
       </View>
       <View style={styles.subContainer}>
-        <Text>Please enter either one field </Text>
+        <Text style={{color:'black',fontStyle:'italic'}}>Please enter either one field </Text>
       </View>
       <View style={styles.subContainer}>
         <TextInput

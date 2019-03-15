@@ -71,7 +71,7 @@ export default class Main extends React.Component {
         </View>
       )
     }
-    else if(firebase.auth().currentUser.uid == this.state.item.user){
+    else if(firebase.auth().currentUser.email == this.state.item.user){
       return (
         <ScrollView style={styles.container}>
         <View>

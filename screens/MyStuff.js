@@ -38,7 +38,7 @@ export default class MyStuff extends React.Component {
   }
 
   onCollectionUpdate = ()=>{
-    this.ref.where("user","==",firebase.auth().currentUser.uid).get()
+    this.ref.where("user","==",firebase.auth().currentUser.email).get()
     .then((querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {
