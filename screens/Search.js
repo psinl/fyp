@@ -17,7 +17,7 @@ export default class Search extends React.Component {
 
   static navigationOptions = ({navigation}) => {
     return {
-      title: 'Category: ' + navigation.getParam('category')
+      title: 'Search Result(s): ' + navigation.getParam('search')
     };
   };
 
@@ -42,8 +42,10 @@ export default class Search extends React.Component {
 
   onCollectionUpdate = ()=>{
     const { navigation } = this.props;
+    const search = JSON.parse(navigation.getParam('search'))
 
-    this.ref.where("category","==",JSON.parse(navigation.getParam('category'))).get()
+    this.ref.orderBy('name').startAt(search)
+    .endAt(search+'uf8ff').get()
     .then((querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {

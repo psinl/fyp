@@ -5,16 +5,17 @@ import {
   Image,
   Text,
   View,
-  Button,
   TouchableOpacity,ScrollView,
   FlatList,
   ActivityIndicator,
   TouchableHighlight,
+  TextInput
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import { SearchBar } from 'react-native-elements';
-
 import { FloatingAction } from 'react-native-floating-action';
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const actions = [{
   text:'Add',
@@ -39,7 +40,7 @@ export default class Main extends React.Component {
     this.unsubscribe = null;
     this.state = {
       isLoading: true,
-      items:[]
+      items:[],
     };
   }
 
@@ -95,12 +96,34 @@ export default class Main extends React.Component {
         <Text style={{position: 'absolute', top: 5, right: 5}}>
           {currentUser && currentUser.email}
         </Text>
-        <SearchBar
-          placeholder="Type Here..."
-          onChangeText={this.updateSearch}
-          value={search}
-          platform='android'
-        />
+        <View style={{flexDirection:'row'}}>
+          <View style={{flex:4}}>
+            <SearchBar
+              placeholder="Type Here..."
+              onChangeText={this.updateSearch}
+              value={search}
+              searchIcon={false}
+              platform='android'
+            />
+          </View>
+          <View style={{flex:1}}>
+            <Button
+              icon={
+                <Icon
+                  name="search"
+                  size={15}
+                  color="white"
+                />
+              }
+              buttonStyle={{height:63,marginTop:2}}
+              onPress={ () => {
+                this.props.navigation.navigate('Search', {
+                  search: `${JSON.stringify(this.state.search)}`,
+                });
+             }}
+             />
+          </View>
+        </View>
         <FlatList
           data={ this.state.items }
           showsVerticalScrollIndicator={ false }
