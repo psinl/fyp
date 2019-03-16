@@ -5,7 +5,6 @@ import {
   Image,
   Text,
   View,
-  Button,
   TouchableOpacity,
   ScrollView,
   FlatList,
@@ -13,6 +12,8 @@ import {
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import { SearchBar } from 'react-native-elements';
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Menu extends React.Component {
   static navigationOptions = {
@@ -41,14 +42,34 @@ export default class Menu extends React.Component {
         <Text style={{position: 'absolute', top: 5, right: 5}}>
           {currentUser && currentUser.email}!
         </Text>
-        <View>
-          <SearchBar
-            placeholder="Type Here..."
-            onChangeText={this.updateSearch}
-            value={search}
-            platform='android'
-            containerStyle={styles.search}
-          />
+        <View style={{flexDirection:'row'}}>
+          <View style={{flex:4}}>
+            <SearchBar
+              placeholder="Type Here..."
+              onChangeText={this.updateSearch}
+              value={search}
+              searchIcon={false}
+              platform='android'
+            />
+          </View>
+          <View style={{flex:1}}>
+            <Button
+              icon={
+                <Icon
+                  name="search"
+                  size={15}
+                  color="white"
+                />
+              }
+              buttonStyle={{height:63,marginTop:2}}
+              onPress={ () => {
+                this.props.navigation.navigate('Search', {
+                  search: `${JSON.stringify(this.state.search)}`,
+                });
+                this.setState({search:''})
+             }}
+             />
+          </View>
         </View>
         <View style={styles.subContainer}>
           <FlatList

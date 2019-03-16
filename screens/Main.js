@@ -120,6 +120,7 @@ export default class Main extends React.Component {
                 this.props.navigation.navigate('Search', {
                   search: `${JSON.stringify(this.state.search)}`,
                 });
+                this.setState({search:''})
              }}
              />
           </View>

@@ -152,6 +152,77 @@ export default class Main extends React.Component {
 
         </ScrollView>
       );
+    } else if(firebase.auth().currentUser.email == 'admin@gmail.com'){
+      return (
+        <ScrollView style={styles.container}>
+        <View>
+          <Image source={{uri:this.state.item.url}}
+            style={styles.image}/>
+        </View>
+          <InputWithLabel style={styles.output}
+            label={'Item Name'}
+            value={this.state.item.name}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Description'}
+            value={this.state.item.description}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Category'}
+            value={this.state.item.category}
+            orientation={'vertical'}
+            editable={false}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Point to buy'}
+            value={this.state.item.point.toString()}
+            orientation={'vertical'}
+            editable={false}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Service Wish to Exchange With'}
+            value={this.state.item.service}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Item Wish to Exchange with'}
+            value={this.state.item.itemWish}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.time}
+            label={'Uploaded by'}
+            value={this.state.item.user}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.time}
+            label={'Uploaded at'}
+            value={this.state.item.timestamp.toString()}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+
+          <View style={styles.subContainer}>
+            <Button
+              large
+              title='Delete'
+              onPress={() => this.deleteItem(this.state.key)} />
+          </View>
+
+        </ScrollView>
+      );
     }
     else{
       return (

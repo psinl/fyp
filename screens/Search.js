@@ -43,9 +43,7 @@ export default class Search extends React.Component {
   onCollectionUpdate = ()=>{
     const { navigation } = this.props;
     const search = JSON.parse(navigation.getParam('search'))
-
-    this.ref.orderBy('name').startAt(search)
-    .endAt(search+'uf8ff').get()
+    this.ref.orderBy("name").startAt(search).endAt(search + "\uf8ff").get()
     .then((querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {
