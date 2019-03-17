@@ -23,6 +23,55 @@ export default class MyAccount extends React.Component {
   state = { currentUser: null }
   render() {
     const { currentUser } = this.state
+    if(firebase.auth().currentUser.email == 'admin@gmail.com'){
+      return (
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={{position: 'absolute', top: 5, right: 5}}>
+            {currentUser && currentUser.email }
+          </Text>
+          <View>
+          </View>
+          <View style={styles.subContainer}>
+            <Button
+              large
+              title='Add User'
+              onPress={()=>this.props.navigation.navigate('SignUp')}
+            />
+            <Button
+              large
+              title='Logout'
+              onPress={()=>this.handleLogout()}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <TouchableOpacity onPress={()=>this.props.navigation.navigate('Menu')}>
+                <Image
+                  source={require('../images/drawer.png')}
+                  style={{ width: 25, height: 25, marginLeft: 55 }}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.button}>
+              <TouchableOpacity onPress={()=>this.props.navigation.navigate('Main')}>
+                <Image
+                  source={require('../images/home.png')}
+                  style={{ width: 25, height: 25, marginLeft: 55 }}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.button}>
+              <TouchableOpacity onPress={()=>this.props.navigation.navigate('MyAccount')}>
+                <Image
+                  source={require('../images/user.png')}
+                  style={{ width: 25, height: 25, marginLeft: 55 }}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      );
+    }
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={{position: 'absolute', top: 5, right: 5}}>

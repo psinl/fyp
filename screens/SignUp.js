@@ -6,7 +6,7 @@ export default class SignUp extends React.Component {
 
 handleSignUp = () => {
   firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
-    .then(()=>this.props.navigation.navigate('Main'))
+    .then(()=>this.props.navigation.navigate('MyAccount'))
     .catch(error => this.setState({errorMessage: error.message}))
   console.log('handleSignUp')
 }
@@ -34,10 +34,6 @@ render() {
           value={this.state.password}
         />
         <Button style={styles.button} title="Sign Up" onPress={this.handleSignUp} />
-        <Button
-          title="Already have an account? Login"
-          onPress={() => this.props.navigation.navigate('Login')}
-        />
       </View>
     )
   }
