@@ -283,7 +283,11 @@ export default class Main extends React.Component {
             <Button
               large
               title='Make Offer'
-              onPress={() => {}} />
+              onPress={() => {this.props.navigation.navigate('MakeOffer', {
+                itemkey: `${JSON.stringify(this.state.key)}`,
+              });
+            }}
+            />
           </View>
 
         </ScrollView>

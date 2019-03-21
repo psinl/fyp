@@ -13,6 +13,8 @@ import MyStuff from './screens/MyStuff';
 import Search from './screens/Search';
 import Category from './screens/Category';
 import SignUp from './screens/SignUp';
+import MakeOffer from './screens/MakeOffer';
+import SelectItem from './screens/SelectItem';
 
 export default createStackNavigator({
   Main:{
@@ -47,6 +49,12 @@ export default createStackNavigator({
   },
   SignUp:{
     screen:SignUp
+  },
+  MakeOffer:{
+    screen:MakeOffer
+  },
+  SelectItem:{
+    screen:SelectItem
   }
 
 }, {

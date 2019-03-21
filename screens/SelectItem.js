@@ -6,21 +6,19 @@ import {
   Text,
   View,
   Button,
-  TouchableOpacity,ScrollView,
+  TouchableOpacity,
+  ScrollView,
   FlatList,
   ActivityIndicator,
   TouchableHighlight,
 } from 'react-native';
 import firebase from 'react-native-firebase';
 
-export default class Search extends React.Component {
+export default class SelectItem extends React.Component {
+  static navigationOptions = {
+    title:'My Stuff',
 
-  static navigationOptions = ({navigation}) => {
-    return {
-      title: 'Search Result(s): ' + navigation.getParam('search')
-    };
   };
-
   handleLogout = () => {
     const { email, password } = this.state
     firebase
@@ -36,14 +34,13 @@ export default class Search extends React.Component {
     this.unsubscribe = null;
     this.state = {
       isLoading: true,
-      items:[],
+      items:[]
     };
   }
 
+
   onCollectionUpdate = ()=>{
-    const { navigation } = this.props;
-    const search = JSON.parse(navigation.getParam('search'))
-    this.ref.orderBy("name").startAt(search).endAt(search + "\uf8ff").get()
+    this.ref.where("user","==",firebase.auth().currentUser.email).get()
     .then((querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {
@@ -71,6 +68,7 @@ export default class Search extends React.Component {
     const {currentUser} = firebase.auth()
     this.setState({currentUser})
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+
   }
   state = { currentUser: null }
   render() {
@@ -94,11 +92,10 @@ export default class Search extends React.Component {
             <TouchableHighlight
               underlayColor={'#cccccc'}
               style={{width:400}}
-              onPress={ () => {
-                this.props.navigation.navigate('ShowDetails', {
-                  itemkey: `${JSON.stringify(item.key)}`,
-                });
-             }}
+              onPress={() => {
+                this.props.navigation.state.params.returnData(item.key);
+                this.props.navigation.goBack();
+              }}
             >
               <View style={styles.item}>
                 <Image source={{uri:`${item.url}`}}

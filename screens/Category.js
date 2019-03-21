@@ -21,15 +21,6 @@ export default class Category extends React.Component {
     };
   };
 
-  handleLogout = () => {
-    const { email, password } = this.state
-    firebase
-    .auth()
-    .signOut()
-    .then(() => this.props.navigation.navigate('Login'))
-    .catch(error => this.setState({errorMessage:error.message}))
-    console.log('handleLogout')
-  }
   constructor(){
     super();
     this.ref = firebase.firestore().collection('items');
