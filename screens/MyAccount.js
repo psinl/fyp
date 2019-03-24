@@ -34,8 +34,8 @@ export default class MyAccount extends React.Component {
           <View style={styles.subContainer}>
             <Button
               large
-              title='Add User'
-              onPress={()=>this.props.navigation.navigate('SignUp')}
+              title='Credit Point'
+              onPress={()=>this.props.navigation.navigate('CreditPoint')}
             />
             <Button
               large

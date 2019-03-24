@@ -34,7 +34,7 @@ export default class Create extends React.Component {
       name: '',
       description: '',
       category: '',
-      point:'',
+      point:'0',
       service:'',
       itemWish:'',
       imageSource: null,
@@ -75,7 +75,7 @@ export default class Create extends React.Component {
       Alert.alert('Please choose the item category')
     }else if(this.state.imageUrl == ''){
       Alert.alert('Please choose the item photo')
-    } else if(this.state.point == '' && this.state.service == '' &&
+    } else if(this.state.point == '0' && this.state.service == '' &&
     this.state.itemWish == ''){
       Alert.alert('Please fill in either one of the field of exchange');
     }else{
@@ -92,6 +92,8 @@ export default class Create extends React.Component {
         user:firebase.auth().currentUser.email,
         image:this.state.imageFileName,
         url:this.state.imageUrl,
+        offers:[],
+        status:'active',
         timestamp:firebase.firestore.FieldValue.serverTimestamp()
       }).then((docRef) => {
         this.setState({

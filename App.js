@@ -15,6 +15,7 @@ import Category from './screens/Category';
 import SignUp from './screens/SignUp';
 import MakeOffer from './screens/MakeOffer';
 import SelectItem from './screens/SelectItem';
+import CreditPoint from './screens/CreditPoint';
 
 export default createStackNavigator({
   Main:{
@@ -55,6 +56,9 @@ export default createStackNavigator({
   },
   SelectItem:{
     screen:SelectItem
+  },
+  CreditPoint:{
+    screen:CreditPoint
   }
 
 }, {

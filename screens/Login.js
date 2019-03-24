@@ -46,6 +46,8 @@ export default class Login extends React.Component {
             value={this.state.password}
           />
           <Buttons onPress={()=>this.handleLogin()}>Log In</Buttons>
+          <Buttons onPress={()=>{this.props.navigation.navigate('SignUp')}}>
+           Do not Have an account? SignUp now</Buttons>
           {this.state.errorMessage &&
             <Text style={{ color: 'red' }}>
               {this.state.errorMessage}
