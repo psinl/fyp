@@ -31,11 +31,14 @@ export default class MakeOffer extends React.Component {
     this.state = {
       itemId:'',
       service:'',
-      point:'',
+      point:'0',
+      sender:'',
+      receiver:'',
       isLoading:'',
       item:{},
-      itemkey:''
-
+      itemkey:'',
+      imageUrl:'',
+      status:'active'
     };
 
   }
@@ -61,7 +64,11 @@ export default class MakeOffer extends React.Component {
         itemId:this.state.itemId,
         point: parseInt(this.state.point),
         service:this.state.service,
-
+        sender:firebase.auth().currentUser.email,
+        receiver:this.state.receiver,
+        receiveItemId:JSON.parse(navigation.getParam('itemkey')),
+        imageUrl:this.state.imageUrl,
+        status:this.state.status
       }).then((docRef) => {
         this.itemRef.update({
           offers:firebase.firestore.FieldValue.arrayUnion(docRef.id)
@@ -85,6 +92,20 @@ export default class MakeOffer extends React.Component {
     }else{
       Alert.alert('Please enter either one field to make offer')
     }
+  }
+
+  componentDidMount(){
+    this.itemRef.get().then((doc) => {
+      if (doc.exists) {
+        const item = doc.data();
+        this.setState({
+          receiver:item.user,
+          imageUrl:item.url
+        });
+      } else {
+        console.log("No such document!");
+      }
+    });
   }
 
 

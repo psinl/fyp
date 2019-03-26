@@ -16,6 +16,9 @@ import SignUp from './screens/SignUp';
 import MakeOffer from './screens/MakeOffer';
 import SelectItem from './screens/SelectItem';
 import CreditPoint from './screens/CreditPoint';
+import MyOffer from './screens/MyOffer';
+import OfferDetails from './screens/OfferDetails';
+import OfferReceived from './screens/OfferReceived';
 
 export default createStackNavigator({
   Main:{
@@ -59,6 +62,15 @@ export default createStackNavigator({
   },
   CreditPoint:{
     screen:CreditPoint
+  },
+  MyOffer:{
+    screen:MyOffer
+  },
+  OfferDetails:{
+    screen:OfferDetails
+  },
+  OfferReceived:{
+    screen:OfferReceived
   }
 
 }, {

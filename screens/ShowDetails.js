@@ -13,7 +13,7 @@ import firebase from 'react-native-firebase';
 import {InputWithLabel} from '../components/UI';
 
 
-export default class Main extends React.Component {
+export default class ShowDetails extends React.Component {
   static navigationOptions = {
     title: 'Item Details',
   };

@@ -87,6 +87,16 @@ export default class MyAccount extends React.Component {
           />
           <Button
             large
+            title='My Offer'
+            onPress={()=>this.props.navigation.navigate('MyOffer')}
+          />
+          <Button
+            large
+            title='Offer from Others'
+            onPress={()=>this.props.navigation.navigate('OfferReceived')}
+          />
+          <Button
+            large
             title='Logout'
             onPress={()=>this.handleLogout()}
           />
