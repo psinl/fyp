@@ -55,6 +55,29 @@ export default class OfferDetails extends React.Component {
 
   }
 
+  acceptOffer() {
+    const { navigation } = this.props;
+    const ref = firebase.firestore().collection('offers').doc(JSON.parse(navigation.getParam('offerkey')));
+    ref.update({
+      status:'Accept'
+    })
+    const itemRef = firebase.firestore().collection('items').doc(JSON.parse(navigation.getParam('itemkey')));
+    itemRef.update({
+      status:'Inactive'
+    })
+    this.props.navigation.goBack();
+  }
+
+  declineOffer() {
+    const { navigation } = this.props;
+    const ref = firebase.firestore().collection('offers').doc(JSON.parse(navigation.getParam('offerkey')));
+    ref.update({
+      status:'Decline'
+    })
+
+    this.props.navigation.goBack();
+  }
+
 
   render() {
     if(this.state.isLoading){
@@ -112,14 +135,14 @@ export default class OfferDetails extends React.Component {
             <Button
               large
               title='Accept'
-              onPress={() => {}}
+              onPress={() => this.acceptOffer()}
             />
           </View>
           <View style={styles.subContainer}>
             <Button
               large
               title='Decline'
-              onPress={() => {}}
+              onPress={() => this.declineOffer()}
             />
           </View>
 

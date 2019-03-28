@@ -38,7 +38,7 @@ export default class MakeOffer extends React.Component {
       item:{},
       itemkey:'',
       imageUrl:'',
-      status:'active'
+      status:'pending'
     };
 
   }

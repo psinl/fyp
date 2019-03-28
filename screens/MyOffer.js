@@ -38,14 +38,15 @@ export default class MyOffer extends React.Component {
     .then((querySnapshot) => {
       const offers = [];
       querySnapshot.forEach((doc) => {
-        const{itemId,imageUrl,sender,receiver} = doc.data();
+        const{itemId,imageUrl,sender,receiver,status} = doc.data();
         offers.push({
           key:doc.id,
           doc,
           itemId,
           imageUrl,
           sender,
-          receiver
+          receiver,
+          status
         });
       });
       this.setState({
@@ -95,7 +96,7 @@ export default class MyOffer extends React.Component {
                 style={styles.image}/>
                 <View style={styles.itemDetails}>
                 <Text numberOfLines={1} style={styles.itemTitle}>To: { item.receiver }</Text>
-                <Text style={styles.itemSubtitle}>{ item.point }</Text>
+                <Text style={styles.itemSubtitle}>Status: { item.status }</Text>
                 <Text numberOfLines={1}>{item.service}</Text>
                 </View>
               </View>
