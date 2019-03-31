@@ -7,6 +7,13 @@ export default class MyAccount extends React.Component {
     title:'My Account',
 
   };
+  constructor(){
+    super();
+    this.ref = firebase.firestore().collection('users');
+    this.state = {
+      point:0
+    }
+  }
   handleLogout = () => {
     const { email, password } = this.state
     firebase
@@ -19,6 +26,14 @@ export default class MyAccount extends React.Component {
   componentDidMount() {
     const {currentUser} = firebase.auth()
     this.setState({currentUser})
+    this.ref.where('email','==',firebase.auth().currentUser.email).get().then((snapshot) => {
+      snapshot.docs.forEach(doc => {
+        const user = doc.data()
+        this.setState({
+          point:user.point
+        })
+      })
+    })
   }
   state = { currentUser: null }
   render() {
@@ -77,7 +92,8 @@ export default class MyAccount extends React.Component {
         <Text style={{position: 'absolute', top: 5, right: 5}}>
           {currentUser && currentUser.email }
         </Text>
-        <View>
+        <View style = {styles.point}>
+          <Text style = {styles.text}>Points Remaining: {this.state.point.toString()}</Text>
         </View>
         <View style={styles.subContainer}>
           <Button
@@ -94,6 +110,11 @@ export default class MyAccount extends React.Component {
             large
             title='Offer from Others'
             onPress={()=>this.props.navigation.navigate('OfferReceived')}
+          />
+          <Button
+            large
+            title='Decide time and place'
+            onPress={()=>this.props.navigation.navigate('Bargain')}
           />
           <Button
             large
@@ -161,4 +182,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#CCCCCC',
 
   },
+  point:{
+    marginTop:60,
+    marginBottom:20
+  },
+  text:{
+    fontSize:25
+  }
 })

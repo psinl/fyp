@@ -163,7 +163,65 @@ export default class OfferDetails extends React.Component {
         </View>
       )
     }
-    if(this.state.offer.receiver == firebase.auth().currentUser.email){
+    if(this.state.offer.status == 'Accept'){
+      return (
+        <ScrollView style={styles.container}>
+          <View >
+          <Text style={styles.title}>Item Offered By: {this.state.offer.sender} </Text>
+          <Image source={{uri:this.state.item.url}}
+            style={styles.image}/>
+          </View>
+          <InputWithLabel style={styles.output}
+            label={'Item Name'}
+            value={this.state.item.name}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Description'}
+            value={this.state.item.description}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Category'}
+            value={this.state.item.category}
+            orientation={'vertical'}
+            editable={false}
+          />
+
+          <InputWithLabel style={styles.output}
+            label={'Service offered'}
+            value={this.state.offer.service}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Point Offered'}
+            value={this.state.offer.point.toString()}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+
+
+          <View style={styles.subContainer}>
+            <Button
+              large
+              title='Decide Date and Place'
+              onPress={() => this.props.navigation.navigate('Bargain')}
+            />
+          </View>
+
+
+        </ScrollView>
+
+      );
+
+    }else if(this.state.offer.receiver == firebase.auth().currentUser.email){
       return (
         <ScrollView style={styles.container}>
           <View >
