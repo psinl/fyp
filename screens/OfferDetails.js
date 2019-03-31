@@ -29,6 +29,8 @@ export default class OfferDetails extends React.Component {
       senderId:'',
       receiverPoint:0,
       senderPoint:0,
+      bargainId:'',
+      bargainStatus:''
     };
     this.userRef = firebase.firestore().collection('users');
   }
@@ -212,7 +214,11 @@ export default class OfferDetails extends React.Component {
             <Button
               large
               title='Decide Date and Place'
-              onPress={() => this.props.navigation.navigate('Bargain')}
+              onPress={() => this.props.navigation.navigate('Bargain',{
+                offerkey: `${JSON.stringify(this.state.key)}`,
+                bargainId:`${JSON.stringify(this.state.offer.bargainId)}`,
+                bargainStatus:`${JSON.stringify(this.state.offer.bargainStatus)}`
+              })}
             />
           </View>
 

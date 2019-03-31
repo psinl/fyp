@@ -41,7 +41,9 @@ export default class MakeOffer extends React.Component {
       imageUrl:'',
       url:'',
       senderPoint:0,
-      status:'Pending'
+      status:'Pending',
+      bargainId:'',
+      bargainStatus:'no status'
     };
 
   }
@@ -77,7 +79,9 @@ export default class MakeOffer extends React.Component {
           receiver:this.state.receiver,
           receiveItemId:JSON.parse(navigation.getParam('itemkey')),
           imageUrl:this.state.imageUrl,
-          status:this.state.status
+          status:this.state.status,
+          bargainId:this.state.bargainId,
+          bargainStatus:this.state.bargainStatus
         }).then((docRef) => {
           this.itemRef.update({
             offers:firebase.firestore.FieldValue.arrayUnion(docRef.id)
