@@ -117,7 +117,7 @@ export default class MakeOffer extends React.Component {
       }
     });
 
-    this.userRef.where('email','==',firebase.auth(),currentUser.email).get().then((snapshot) => {
+    this.userRef.where('email','==',firebase.auth().currentUser.email).get().then((snapshot) => {
       snapshot.docs.forEach(doc => {
         console.log(doc.id);
         const sender = doc.data();

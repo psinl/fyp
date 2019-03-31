@@ -72,34 +72,11 @@ export default class OfferDetails extends React.Component {
       status:'Inactive'
     })
     if(this.state.offer.point != 0){
-      this.userRef.where('email','==',this.state.offer.sender).get().then((snapshot) => {
-        snapshot.docs.forEach(doc => {
-          console.log(doc.id);
-          const sender = doc.data();
-          this.setState({
-            senderId:doc.id,
-            senderPoint:sender.point,
-          })
-        })
-        console.log(this.state.senderId)
-        console.log('senderPoint'+this.state.senderPoint.toString())
-        console.log(this.state.offer.point.toString())
-      })
-      .then(()=>{
-        this.userRef.doc(this.state.senderId).set({
-          email:this.state.offer.sender,
-          point:this.state.senderPoint - this.state.offer.point
-        })
-        this.props.navigation.goBack();
-      })
-      .catch((error) => {
-        console.error("Error updating document: ", error);
-      });
-
       this.userRef.where('email','==',this.state.offer.receiver).get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
           console.log(doc.id);
           const receiver = doc.data();
+
           this.setState({
             receiverId:doc.id,
             receiverPoint:receiver.point,
@@ -120,9 +97,31 @@ export default class OfferDetails extends React.Component {
       .catch((error) => {
         console.error("Error updating document: ", error);
       });
+      this.userRef.where('email','==',this.state.offer.sender).get().then((snapshot) => {
+        snapshot.docs.forEach(doc => {
+          console.log(doc.id);
+          const sender = doc.data();
+          this.setState({
+            senderId:doc.id,
+            senderPoint:sender.point,
+          })
 
+        })
+        console.log(this.state.senderId)
+        console.log('senderPoint'+this.state.senderPoint.toString())
+        console.log(this.state.offer.point.toString())
+      })
+      .then(()=>{
+        this.userRef.doc(this.state.senderId).set({
+          email:this.state.offer.sender,
+          point:this.state.senderPoint - this.state.offer.point
+        })
+        this.props.navigation.goBack();
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      });
     }
-    this.props.navigation.goBack();
   }
 
   declineOffer() {
