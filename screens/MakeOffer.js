@@ -28,6 +28,7 @@ export default class MakeOffer extends React.Component {
     const { navigation } = this.props;
     this.ref = firebase.firestore().collection('offers');
     this.itemRef = firebase.firestore().collection('items').doc(JSON.parse(navigation.getParam('itemkey')));
+    this.userRef = firebase.firestore().collection('users');
     this.state = {
       itemId:'',
       service:'',
@@ -38,6 +39,8 @@ export default class MakeOffer extends React.Component {
       item:{},
       itemkey:'',
       imageUrl:'',
+      url:'',
+      senderPoint:0,
       status:'pending'
     };
 
@@ -49,46 +52,53 @@ export default class MakeOffer extends React.Component {
     this.setState(state);
   }
 
-  returnData(id) {
-    this.setState({itemId: id});
+  returnData(id,url) {
+    this.setState({
+      itemId:id,
+      url: url
+    });
   }
 
 
   saveOffer() {
     const { navigation } = this.props;
-    if(this.state.itemId != '' || this.state.service != '' || this.state.point != 0){
-      this.setState({
-        isLoading: true,
-      });
-      this.ref.add({
-        itemId:this.state.itemId,
-        point: parseInt(this.state.point),
-        service:this.state.service,
-        sender:firebase.auth().currentUser.email,
-        receiver:this.state.receiver,
-        receiveItemId:JSON.parse(navigation.getParam('itemkey')),
-        imageUrl:this.state.imageUrl,
-        status:this.state.status
-      }).then((docRef) => {
-        this.itemRef.update({
-          offers:firebase.firestore.FieldValue.arrayUnion(docRef.id)
+    if(this.state.url != '' || this.state.service != '' || this.state.point != 0){
+      if(parseInt(this.state.point)>this.state.senderPoint){
+        Alert.alert('Low point balance')
+      }else{
+        this.setState({
+          isLoading: true,
+        });
+        this.ref.add({
+          itemId:this.state.itemId,
+          point: parseInt(this.state.point),
+          service:this.state.service,
+          sender:firebase.auth().currentUser.email,
+          receiver:this.state.receiver,
+          receiveItemId:JSON.parse(navigation.getParam('itemkey')),
+          imageUrl:this.state.imageUrl,
+          status:this.state.status
+        }).then((docRef) => {
+          this.itemRef.update({
+            offers:firebase.firestore.FieldValue.arrayUnion(docRef.id)
+          })
+          this.setState({
+            itemId:'',
+            point: '',
+            service:'',
+            isLoading: false,
+          });
+          this.props.navigation.goBack();
         })
-        this.setState({
-          itemId:'',
-          point: '',
-          service:'',
-          isLoading: false,
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+          this.setState({
+            isLoading: false,
+          });
         });
-        this.props.navigation.goBack();
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-        this.setState({
-          isLoading: false,
-        });
-      });
 
-      Alert.alert('Offer successfully make');
+        Alert.alert('Offer successfully make');
+      }
     }else{
       Alert.alert('Please enter either one field to make offer')
     }
@@ -106,6 +116,17 @@ export default class MakeOffer extends React.Component {
         console.log("No such document!");
       }
     });
+
+    this.userRef.where('email','==',firebase.auth(),currentUser.email).get().then((snapshot) => {
+      snapshot.docs.forEach(doc => {
+        console.log(doc.id);
+        const sender = doc.data();
+        this.setState({
+          senderPoint:sender.point,
+        })
+
+      })
+    })
   }
 
 
@@ -123,11 +144,7 @@ export default class MakeOffer extends React.Component {
       <View style={styles.subContainer}>
         <Text style={{color:'black',fontStyle:'italic'}}>Please enter either one field </Text>
       </View>
-      <View>
 
-        <Button title="Select Item from MyStuff" onPress={() => this.props.navigation.navigate('SelectItem', {returnData: this.returnData.bind(this)})}/>
-        <Text>{this.state.itemId}</Text>
-      </View>
       <View style={styles.subContainer}>
         <TextInput
             placeholder={'Offer Service'}
@@ -143,6 +160,15 @@ export default class MakeOffer extends React.Component {
             value={this.state.point}
             onChangeText={(text) => this.updateTextInput(text, 'point')}
         />
+      </View>
+      <View>
+
+        <Button title="Select Item from MyStuff" onPress={() => this.props.navigation.navigate('SelectItem', {returnData: this.returnData.bind(this)})}/>
+        <Text>{this.state.itemId}</Text>
+        <View>
+          <Image source={{uri:this.state.url}}
+            style={styles.image}/>
+        </View>
       </View>
       <View style={styles.subContainer}>
         <Button
@@ -176,5 +202,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+  image:{
+    flex:1,
+    width:'100%',
+    height:450,
+  },
 })

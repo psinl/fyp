@@ -93,7 +93,7 @@ export default class SelectItem extends React.Component {
               underlayColor={'#cccccc'}
               style={{width:400}}
               onPress={() => {
-                this.props.navigation.state.params.returnData(item.key);
+                this.props.navigation.state.params.returnData(item.key,item.url);
                 this.props.navigation.goBack();
               }}
             >

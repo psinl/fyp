@@ -17,7 +17,6 @@ export default class CreditPoint extends React.Component {
   }
 
 creditPoint = () => {
-  var query = this.ref.where('email','==','pei@gmail.com');
   this.ref.where('email','==',this.state.email).get().then((snapshot) => {
     snapshot.docs.forEach(doc => {
       console.log(doc.id);

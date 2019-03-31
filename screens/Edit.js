@@ -71,6 +71,8 @@ export default class Edit extends React.Component{
           user:item.user,
           image:item.image,
           url:item.url,
+          offers:item.offers,
+          status:item.status,
           timestamp:item.timestamp,
           isLoading: false
         });
@@ -114,6 +116,8 @@ export default class Edit extends React.Component{
         user:this.state.user,
         image:this.state.image,
         url:this.state.url,
+        offers:this.state.offers,
+        status:this.state.status,
         timestamp:this.state.timestamp
       }).then((docRef) => {
         this.setState({
