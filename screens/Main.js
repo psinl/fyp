@@ -52,25 +52,28 @@ export default class Main extends React.Component {
     this.setState({ search });
   };
 
-  onCollectionUpdate = (querySnapshot) => {
-    const items = [];
-    querySnapshot.forEach((doc) => {
-      const{name,category, description,imageFileName,point,service,user,url} = doc.data();
-      items.push({
-        key:doc.id,
-        doc,
-        name,
-        category,
-        description,
-        imageFileName,
-        url,
-        point,
-        service,
+  onCollectionUpdate = ()=>{
+    this.ref.where("status","==","active").get()
+    .then((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        const{name,category, description,imageFileName,point,service,user,url} = doc.data();
+        items.push({
+          key:doc.id,
+          doc,
+          name,
+          category,
+          description,
+          imageFileName,
+          url,
+          point,
+          service,
+        });
       });
-    });
-    this.setState({
-      items,
-      isLoading:false,
+      this.setState({
+        items,
+        isLoading:false,
+      })
     })
   }
 

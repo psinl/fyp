@@ -85,6 +85,7 @@ export default class Bargain extends React.Component {
           bargainStatus:'start'
         })
       })
+      this.props.navigation.goBack();
     }else{
       Alert.alert('Please fill in all fields')
     }
@@ -95,6 +96,7 @@ export default class Bargain extends React.Component {
       status:'Complete',
       bargainStatus:'end'
     })
+    Alert.alert('Date time and place confirmed')
   }
 
   editBargain(){
@@ -103,6 +105,8 @@ export default class Bargain extends React.Component {
       place:this.state.place,
       datetime:this.state.datetime
     })
+    Alert.alert('Details edited succesfully')
+    this.props.navigation.goBack()
   }
   showDateTimePicker = () => this.setState({ dateTimePickerVisible: true });
 
@@ -226,7 +230,7 @@ export default class Bargain extends React.Component {
             </View>
         </ScrollView>
       );
-    }else if(this.state.bargain == 'Complete' ){
+    }else if(this.state.bargain == 'end' ){
       return (
         <ScrollView style={styles.container}>
             <InputWithLabel style={styles.input}
@@ -242,7 +246,7 @@ export default class Bargain extends React.Component {
               orientation={'vertical'}
               editable = {false}
             />
-            
+
         </ScrollView>
       );
     }

@@ -13,6 +13,7 @@ export default class CreditPoint extends React.Component {
       email:'',
       point:'0',
       user:'',
+      userPoint:0,
     }
   }
 
@@ -20,28 +21,35 @@ creditPoint = () => {
   this.ref.where('email','==',this.state.email).get().then((snapshot) => {
     snapshot.docs.forEach(doc => {
       console.log(doc.id);
+      const user = doc.data();
       this.setState({
-        user:doc.id
+        user:doc.id,
+        userPoint: user.point
       })
       console.log(this.state.user)
     })
   })
   .then(()=>{
-    this.ref.doc(this.state.user).set({
+    if(this.state.user == ''){
+      Alert.alert('User not found')
+    }
+    else{
+    this.ref.doc(this.state.user).update({
       email:this.state.email,
-      point:parseInt(this.state.point)
+      point:this.state.userPoint + parseInt(this.state.point)
     })
     Alert.alert('Point credited successfully')
     this.props.navigation.goBack();
     console.log(this.state.user)
     console.log(this.state.point)
-  })
+  }})
   .catch((error) => {
     console.error("Error adding document: ", error);
     this.setState({
       isLoading: false,
     });
   });
+
 }
 render() {
     return (

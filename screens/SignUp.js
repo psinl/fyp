@@ -18,20 +18,27 @@ export default class SignUp extends React.Component {
   }
 
 handleSignUp = () => {
-  if(this.state.email != '' && this.state.password != ''){
-    firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
-      .then(()=>this.props.navigation.navigate('Main'))
-      .catch(error => this.setState({errorMessage: error.message}))
-    console.log('handleSignUp')
-    this.ref.add({
-      email:this.state.email,
-      point:this.state.point
-    }).then((docRef)=>{
-      this.setState({
-        email:'',
-        password:''
+  if(this.state.email != '' && this.state.password != '' && this.state.confirmPassword != ''){
+    if(this.state.password == this.state.confirmPassword){
+      firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
+        .then(()=>this.props.navigation.navigate('Main'))
+        .catch(error => this.setState({errorMessage: error.message}))
+      console.log('handleSignUp')
+      this.ref.add({
+        email:this.state.email,
+        point:this.state.point
+      }).then((docRef)=>{
+        this.setState({
+          email:'',
+          password:'',
+          confirmPassword:'',
+          errorMessage:''
+        })
       })
-    })
+    }
+    else{
+      this.setState({errorMessage:'Password entered is not match'});
+    }
 
   }else{
     this.setState({errorMessage:'Please enter email and password to login'});
@@ -54,6 +61,13 @@ render() {
             secureTextEntry
             onChangeText={password => this.setState({password})}
             value={this.state.password}
+          />
+          <Input
+            placeholder='Enter your password...'
+            label='Confirm Password'
+            secureTextEntry
+            onChangeText={confirmPassword => this.setState({confirmPassword})}
+            value={this.state.confirmPassword}
           />
           <Buttons onPress={()=>this.handleSignUp()}>Sign Up</Buttons>
           <Buttons onPress={()=>{this.props.navigation.navigate('Login')}}>

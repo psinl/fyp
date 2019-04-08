@@ -69,10 +69,15 @@ export default class OfferDetails extends React.Component {
     ref.update({
       status:'Accept'
     })
+    const itemRefSelf = firebase.firestore().collection('items').doc(this.state.offer.receiveItemId);
+    itemRefSelf.update({
+      status:'Inactive'
+    })
     const itemRef = firebase.firestore().collection('items').doc(JSON.parse(navigation.getParam('itemkey')));
     itemRef.update({
       status:'Inactive'
     })
+
     if(this.state.offer.point != 0){
       this.userRef.where('email','==',this.state.offer.receiver).get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
@@ -165,7 +170,73 @@ export default class OfferDetails extends React.Component {
         </View>
       )
     }
-    if(this.state.offer.status == 'Accept'){
+    if(this.state.offer.status == 'Complete') {
+      return (
+        <ScrollView style={styles.container}>
+          <View >
+          <Text style={styles.title}>Item Offered By: {this.state.offer.sender} </Text>
+          <Image source={{uri:this.state.item.url}}
+            style={styles.image}/>
+          </View>
+          <InputWithLabel style={styles.output}
+            label={'Item Name'}
+            value={this.state.item.name}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Description'}
+            value={this.state.item.description}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Category'}
+            value={this.state.item.category}
+            orientation={'vertical'}
+            editable={false}
+          />
+
+          <InputWithLabel style={styles.output}
+            label={'Service offered'}
+            value={this.state.offer.service}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+          <InputWithLabel style={styles.output}
+            label={'Point Offered'}
+            value={this.state.offer.point.toString()}
+            orientation={'vertical'}
+            editable={false}
+            multiline={true}
+          />
+
+          <View style={styles.subContainer}>
+            <Button
+              large
+              title='Delete Offer'
+              onPress={() => this.deleteOffer(this.state.key)}
+            />
+          </View>
+
+          <View style={styles.subContainer}>
+            <Button
+              large
+              title='See Date and Place'
+              onPress={() => this.props.navigation.navigate('Bargain',{
+                offerkey: `${JSON.stringify(this.state.key)}`,
+                bargainId:`${JSON.stringify(this.state.offer.bargainId)}`,
+                bargainStatus:`${JSON.stringify(this.state.offer.bargainStatus)}`
+              })}
+            />
+          </View>
+        </ScrollView>
+      );
+    }
+    else if(this.state.offer.status == 'Accept'){
       return (
         <ScrollView style={styles.container}>
           <View >
@@ -342,6 +413,7 @@ export default class OfferDetails extends React.Component {
               onPress={() => this.deleteOffer(this.state.key)}
             />
           </View>
+
         </ScrollView>
       );
     }

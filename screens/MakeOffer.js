@@ -168,7 +168,6 @@ export default class MakeOffer extends React.Component {
       <View>
 
         <Button title="Select Item from MyStuff" onPress={() => this.props.navigation.navigate('SelectItem', {returnData: this.returnData.bind(this)})}/>
-        <Text>{this.state.itemId}</Text>
         <View>
           <Image source={{uri:this.state.url}}
             style={styles.image}/>

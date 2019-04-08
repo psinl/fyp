@@ -40,7 +40,7 @@ export default class SelectItem extends React.Component {
 
 
   onCollectionUpdate = ()=>{
-    this.ref.where("user","==",firebase.auth().currentUser.email).get()
+    this.ref.where("user","==",firebase.auth().currentUser.email).where("status","==","active").get()
     .then((querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {

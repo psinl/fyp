@@ -113,11 +113,6 @@ export default class MyAccount extends React.Component {
           />
           <Button
             large
-            title='Decide time and place'
-            onPress={()=>this.props.navigation.navigate('Bargain')}
-          />
-          <Button
-            large
             title='Logout'
             onPress={()=>this.handleLogout()}
           />
